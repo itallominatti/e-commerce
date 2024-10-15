@@ -1,11 +1,36 @@
+import { api } from "@/data/api"
+import { Product } from "@/data/types/product"
 import Image from "next/image"
 
-export default function ProductPage() {
+type ProductProps = {
+    params: {
+        slug: string
+    }
+}
+
+async function getProduct(slug: string): Promise<Product> {
+    const response = await api(`/products/${slug}`, {
+        next: {
+            revalidate: 60 * 60, // 1 hour
+        }
+
+    })
+
+    const product = await response.json()
+
+    return product
+}
+
+export default async function ProductPage({ params }: ProductProps) {
+
+    const product = await getProduct(params.slug)
+    const installmentPrice = product.price / 12
+
     return (
         <div className="relative grid max-[860px] grid-cols-3">
             <div className="col-span-2 overflow-hidden">
                 <Image
-                    src="/moletom-never-stop-learning.png"
+                    src={product.image}
                     alt=""
                     width={1000}
                     height={1000}
@@ -15,16 +40,20 @@ export default function ProductPage() {
 
             <div className="flex flex-col justify-center px-12">
                 <h1 className="text-3xl font-bold leading-tight">
-                    Moletom Never Stop Learning
+                    {product.title}
                 </h1>
 
                 <p className="mt-2 leading-relaxed text-zinc-400">
-                    ABABABABA
+                    {product.description}
                 </p>
 
                 <div className="mt-8 flex items-center gap-3">
-                    <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">129</span>
-                    <span className="text-sm text-zinc-400">em 12x sem jueros de 75</span>
+                    <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">
+                        {product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 })}
+                    </span>
+                    <span className="text-sm text-zinc-400">em 12x sem juros de
+                        {installmentPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 })}
+                    </span>
                 </div>
 
                 <div className="mt-8 space-y-4">
