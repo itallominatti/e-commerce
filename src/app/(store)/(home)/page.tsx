@@ -16,6 +16,10 @@ async function getFeatureProducts(): Promise<Product[]> {
   return products
 }
 
+export const metadata = {
+  title: 'Home'
+}
+
 export default async function Home() {
 
   const [highLightedProduct, ...otherProducts] = await getFeatureProducts()
@@ -45,7 +49,7 @@ export default async function Home() {
 
       {otherProducts.map(product => {
         return (
-          <Link href={`/product/${product.slug}`}
+          <Link key={product.id} href={`/product/${product.slug}`}
             className="group relative col-span-3 row-span-3 flex rounded-lg bg-zinc-900 overflow-hidden justify-center items-end"
           >
             <Image
