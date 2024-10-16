@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: {
     template: '%s | Devstore',
     default: 'Devstore',
-  }
+  },
 };
 
 export default function RootLayout({
