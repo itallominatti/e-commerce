@@ -1,16 +1,28 @@
+'use client';
+
 import { Skeleton } from "@/components/skeleton";
+import { useSearchParams } from "next/navigation";
 
 export default function Search() {
+
+    const searchParams = useSearchParams();
+
+    const query = searchParams.get('q');
+
     return (
         <div className="flex flex-col gap-4">
             <p className="text-sm">
-                Carregando...
+                Resultados para:
+                <span className="font-semibold">{query}</span>
             </p>
 
             <div className="grid grid-cols-3 gap-6">
-                <Skeleton className="group relative flex rounded-lg bg-zinc-900 overflow-hidden justify-center items-end" />
-                <Skeleton className="group relative flex rounded-lg bg-zinc-900 overflow-hidden justify-center items-end" />
-                <Skeleton className="group relative flex rounded-lg bg-zinc-900 overflow-hidden justify-center items-end" />
+                <Skeleton className="h-[400px]" />
+                <Skeleton className="h-[400px]" />
+                <Skeleton className="h-[400px]" />
+                <Skeleton className="h-[400px]" />
+                <Skeleton className="h-[400px]" />
+                <Skeleton className="h-[400px]" />
             </div>
         </div>
     );
