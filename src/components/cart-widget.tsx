@@ -1,6 +1,6 @@
 'use client';
 
-import { useCart } from "@/contexts/cart-context"
+import { useCart } from "../contexts/cart-context"
 import { ShoppingBag } from "lucide-react"
 
 export default function CartWidget() {
